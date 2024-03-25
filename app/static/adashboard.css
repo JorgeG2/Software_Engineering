@@ -1,0 +1,151 @@
+/* adashboard.css - Styles specific to the Admin Dashboard */
+
+/* Admin Dashboard Layout */
+.dashboard-container {
+    display: flex;
+    flex-wrap: nowrap;
+    background-color: #f8f9fa;
+    padding-top: 60px; /* Space for header */
+    min-height: calc(100vh - 60px); /* Adjust height considering header */
+}
+
+/* Header styling */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #007bff;
+    color: #fff;
+    z-index: 1050;
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0;
+    padding: 0 20px;
+    font-size: 1.8rem;
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: 250px;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    min-height: 100%;
+}
+
+/* Main content area */
+.main {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #ecf0f1;
+    overflow-y: auto;
+}
+
+/* Common section styles */
+.section {
+    background: #ffffff;
+    padding: 15px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.section h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* Logout button */
+.logout-button {
+    display: inline-block;
+    background-color: #dc3545;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-bottom: 20px;
+}
+
+.logout-button:hover {
+    background-color: #c82333;
+}
+
+/* Button styling */
+.btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    display: inline-block;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    margin: 5px 0;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #218838;
+}
+
+/* Inbox & Messaging */
+.inbox {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Inbox list */
+.message-list {
+    list-style-type: none;
+    padding: 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.message-list li {
+    padding: 10px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+}
+
+.message-list li:hover {
+    background-color: #f8f9fa;
+}
+
+/* Message display area */
+.message-display {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f2f2f2;
+    border-radius: 4px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column;
+    }
+
+    .sidebar,
+    .main {
+        width: 100%;
+        box-shadow: none;
+    }
+
+    .sidebar {
+        padding-bottom: 60px; /* Space for potential bottom navigation */
+    }
+
+    header {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+/* Additional responsive tweaks can be added as needed */
