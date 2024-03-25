@@ -55,7 +55,7 @@ def login():
             else:  # This else should align with if user.is_admin
                 return redirect(url_for('main.user_messages'))
         else:
-            flash('Invalid email or password.')  # Provide feedback for failed login
+            flash('Invalid email or password.')  
 
     return render_template('login.html')
 
@@ -66,11 +66,9 @@ def login():
 def send_message():
   data = request.get_json()
   content = data.get('content')
-  # Assuming the recipient_id for the owner/admin is known, e.g., 1
-  # and 'current_user' is the sender who is logged in
   new_message = Message(sender_id=current_user.id, recipient_id=1, content=content)
 
-  # Save the new message to the database
+  # Saves the new message to the database
   db.session.add(new_message)
   db.session.commit()
 
@@ -79,13 +77,11 @@ def send_message():
 @main_bp.route('/get_my_conversation_with_owner')
 @login_required
 def get_my_conversation_with_owner():
-    # Fetch messages where the current user is either the sender or recipient
     messages = Message.query.filter(
         (Message.sender_id == current_user.id) | 
         (Message.recipient_id == current_user.id)
     ).order_by(Message.timestamp.asc()).all()
 
-    # Transform the messages into a JSON-serializable format
     messages_data = [{
         'id': message.id,
         'sender_id': message.sender_id,
@@ -107,7 +103,6 @@ def get_user_list():
         # Ensure only admin users can access this route
         return jsonify({'error': 'Unauthorized'}), 403
 
-    # Example: Fetching user IDs and names who have sent messages
     user_list_query = db.session.query(
         Message.sender_id,
         User.name
@@ -148,7 +143,6 @@ def send_message_to_user(user_id):
 
 #################################################################### for creating a new property listing
 
-# Helper function to check allowed file extensions
 ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png'}
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -167,9 +161,8 @@ def create_property_listing():
         if not images or any(image.filename == '' for image in images):
             flash('No image selected for uploading')
             return redirect(request.url)
-        # array to store the uploaded filenames
         uploaded_filenames = []
-        # Save the uploaded images
+
         for image in images:
             if image and allowed_file(image.filename):
                 filename = secure_filename(image.filename)
@@ -202,11 +195,11 @@ def create_property_listing():
             flash('Bedrooms and Bathrooms must be numbers.')
             return redirect(url_for('main.admin_dashboard'))
         
+        # This is used to get the id of the new_property before committing
         new_property = PropertyListing(title=title, description=description, price=price, location=location, bedrooms=bedrooms, bathrooms=bathrooms )
         db.session.add(new_property)
-        db.session.flush()  # This is used to get the id of the new_property before committing
+        db.session.flush()  
 
-        # Associate uploaded images with this property
         for filename in uploaded_filenames:
             new_photo = Photos(photo=filename, property_id=new_property.id)
             db.session.add(new_photo)
@@ -215,10 +208,11 @@ def create_property_listing():
         flash('Property listing created successfully.')
         
         return redirect(url_for('main.admin_dashboard'))
+    
 ####################################################################### for viewing property listings
 @main_bp.route('/get_property_listings')
 def get_property_listings():
-    property_listings = PropertyListing.query.all()  # Fetch all property listings from the database
+    property_listings = PropertyListing.query.all()  
     properties = []
     for property in property_listings:
         properties.append({
@@ -230,12 +224,12 @@ def get_property_listings():
             'bedrooms': property.bedrooms,
             'bathrooms': property.bathrooms
         })
-    return jsonify(properties)  # Convert the list of property data into JSON and return it
+    return jsonify(properties)  
+
 ########################################################################## sends to property.html
 @main_bp.route('/property/<int:property_id>')
 def property_detail(property_id):
     property = PropertyListing.query.get_or_404(property_id)
-    # The function 'render_template' will pass the 'property' object to 'property.html'
     return render_template('property.html', property=property)
 
 
@@ -251,7 +245,7 @@ def index():
 def user_messages():
     # Ensure only non-admin users can access this page
     if current_user.is_admin:
-        return redirect(url_for('main.index'))  # or some other appropriate action
+        return redirect(url_for('main.index')) 
     return render_template('user_messages.html')
 
 @main_bp.route('/admin_dashboard')
@@ -259,7 +253,7 @@ def user_messages():
 def admin_dashboard():
     # Ensure only admin users can access this page
     if not current_user.is_admin:
-        return redirect(url_for('main.index'))  # or some appropriate action
+        return redirect(url_for('main.index')) 
     return render_template('admin_dashboard.html')
 
 

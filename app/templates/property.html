@@ -5,7 +5,12 @@
   <title>{{ property.title }}</title>
   <link
   rel="stylesheet"
-  href="{{ url_for('static', filename='propertylisting.css') }}"
+  href="{{ url_for('static', filename='propertylisting.css') }}">
+
+  <link 
+  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  
 /></head>
 <body>
   <div class="property-detail"> 
@@ -15,27 +20,110 @@
     <p>Bathrooms: {{ property.bathrooms }}</p>
     <p>Price: ${{ property.price }}</p>
     <p>Location: {{ property.location }}</p>
-  
   </div>
 
- 
-  
-    <!-- <div id="map"></div>
+  <!-- Slider main container -->
+<div class="swiper">
+
+  <!-- Additional required wrapper -->
+  <div class="swiper-wrapper">
     
-    <script src="script.js"></script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+    <!-- Slides -->
+    <div class="swiper-slide">Slide 1</div>
+    <div class="swiper-slide">Slide 2</div>
+    <div class="swiper-slide">Slide 3</div>
+    ...
+  </div>
+  
 
-    let map; -->
+  <!-- navigation buttons -->
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
 
-<!-- // function initMap() {
-//   map = new google.maps.Map(document.getElementById("map"), {
-//     center: { lat: -34.397, lng: 150.644 },
-//     zoom: 8,
-//   });
-// } -->
+  <!--scrollbar -->
+  <div class="swiper-scrollbar"></div>
+</div>
+
+<!-- Slider main container -->
+<div class="swiper">
+
+  <!-- Additional required wrapper -->
+  <div class="swiper-wrapper">
+
+  <!-- Slides -->
+  <div class="swiper-slide"><img src="{{ url_for('static', filename='house1.jpg') }}" alt="House 1"></div>
+  <div class="swiper-slide"><img src="{{ url_for('static', filename='house2.jpg') }}" alt="House 2"></div>
+  <div class="swiper-slide"><img src="{{ url_for('static', filename='house3.jpg') }}" alt="House 3"></div>
+    ...
+  </div>
+
+  <!--pagination -->
+  <div class="swiper-pagination"></div>
+
+  <!-- navigation buttons -->
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+
+  <!--scrollbar -->
+  <div class="swiper-scrollbar"></div>
+</div>
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+  const swiper = new Swiper('.swiper', {
+
+    // parameters
+    direction: 'horizontal',
+    loop: true,
+
+    //pagination
+    pagination: {
+      el: '.swiper-pagination',
+    },
+
+    // Navigation arrows
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+
+    // scrollbar
+    scrollbar: {
+      el: '.swiper-scrollbar',
+    },
+  });
+});
+
+  </script>
+ 
+        <style>
+          /* * {
+            margin: 0;
+            padding: 0;
+          }
+          #map {
+            height: 500px;
+            width: 100%;
+          } */
+        </style>
+
+    <!-- <div id="map"></div>
+    <script>
+      function initMap() {
+        var location = {lat: -25.363, lng: 131.044};
+        var map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 4,
+          center: location 
+        });
+      }
+      AIzaSyDehlezbsZcJG_BKfUBcLamDBd1HXQbwOs
+    </script>   
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDehlezbsZcJG_BKfUBcLamDBd1HXQbwOs&callback=initMap">
 
     </script>
+
+    </script> -->
   </body>
   </html>
   
