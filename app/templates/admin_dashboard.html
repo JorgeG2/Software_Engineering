@@ -3,16 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <title>Admin Dashboard</title>
-   
   </head>
   <body>
     <h2>Admin Dashboard</h2>
     <ul id="userList">
-      <!-- User list will be populated here via JavaScript -->
     </ul>
-    
 
-    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <div id="propertyList">
@@ -32,7 +28,9 @@
       </form>
       <p>hello world</p>
     </div>
-    <!-- script that get and populates the list of the clients who have sent a message -->
+
+    <a href="{{ url_for('main.logout') }}" style="color: white; background-color: red; padding: 10px; text-decoration: none; border-radius: 5px;">Logout</a>
+
     <script>
       $(document).ready(function () {
         function fetchUserList() {
@@ -45,7 +43,8 @@
               response.user_list.forEach(function (user) {
                 var listItem = $("<li>").text(user.name);
                 listItem.on("click", function () {
-                 
+
+                  // Redirects to user-specific conversation page
                   window.location.href = "/admin_messages/" + user.sender_id;
                 });
                 userList.prepend(listItem);
@@ -57,7 +56,6 @@
           });
         }
 
-        
         fetchUserList();
       });
     </script>

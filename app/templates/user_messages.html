@@ -2,10 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Send a Message to Owner</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='Umessages.css') }}"
+    />
   </head>
   <body>
-    <h2>Send a Message to Owner</h2>
+    <h2 style="text-align: center">Send a Message to Owner</h2>
+
+    <script type="text/javascript">
+      var currentUserId = {{ current_user.id | tojson }};
+    </script>
+
+    <div id="messagesDisplay">
+    </div>
     <form id="messageForm">
       <textarea
         id="messageContent"
@@ -15,15 +25,14 @@
       ><br />
       <button type="submit">Send Message</button>
     </form>
-    <div id="messagesDisplay">
-      <!-- Messages will be displayed here -->
-    </div>
 
-    <!-- Include jQuery -->
+    <div id="messagesDisplay">
+    </div>
+    <a href="{{ url_for('main.index') }}"> index.html</a>.
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script type="text/javascript">
-      // Assign the current_user.id to a JavaScript variable
       var currentUserId = {{ current_user.id | tojson }};
     </script>
 
@@ -73,7 +82,6 @@
           });
         });
 
-        // Call fetchConversation on page load
         fetchConversation();
       });
     </script>

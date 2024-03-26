@@ -4,7 +4,6 @@ from .extensions import db
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
-# Working on the User model and message for clients
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
@@ -27,7 +26,6 @@ class Message(db.Model):
     read = db.Column(db.Boolean, default=False)
 
 
-# Working on the PropertyListing model and reservation for clients 
 class PropertyListing(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
@@ -37,7 +35,6 @@ class PropertyListing(db.Model):
     price = db.Column(db.Integer, nullable=False)
     location = db.Column(db.String(100), nullable=False)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    # user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  # Add this line
 
     photos = db.relationship('Photos', backref='property_listing')
 
@@ -50,14 +47,13 @@ class Photos(db.Model):
 class Reservation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     property_id = db.Column(db.Integer, db.ForeignKey('property_listing.id'), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  # Foreign key to the User model
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  
     start_date = db.Column(db.DateTime, nullable=False)
     end_date = db.Column(db.DateTime, nullable=False)
     status = db.Column(db.String(100), nullable=False)  # e.g., "confirmed", "cancelled"
-
-    # Define the relationship to User
     user = db.relationship('User', backref='reservations')
-    # Continue with your existing relationship to PropertyListing
     property = db.relationship('PropertyListing', backref='reservations')
+    total = db.Column(db.Numeric(10, 2), nullable=False)  # Add this line
+
 
 
