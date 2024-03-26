@@ -1,15 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Admin Dashboard</title>
-  </head>
-  <body>
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='adashboard.css') }}">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <div class="header">
     <h2>Admin Dashboard</h2>
+    <a href="{{ url_for('main.logout') }}" class="logout-button">Logout</a>
+  </div>
+  
+  <div id="inbox-container">
+    <h3>Messages</h3>
     <ul id="userList">
+      <!-- User list would get populated here -->
     </ul>
+  </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <div id="propertyList">
+    <!-- The Property Listing Form -->
+    <form
+      action="{{ url_for('main.create_property_listing') }}"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <input type="text" name="title" placeholder="Name" required /><br />
+      <input type="text" name="description" placeholder="Description" required /><br />
+      <input type="number" name="bedrooms" placeholder="Bedrooms" required /><br />
+      <input type="number" name="bathrooms" placeholder="Bathrooms" required /><br />
+      <input type="number" name="price" placeholder="Price" required /><br />
+      <input type="text" name="location" placeholder="Location" required /><br />
+      <input type="file" name="images" accept="image/jpeg, image/png" multiple required/><br />
+      <button type="submit">Create Listing</button>
+    </form>
+  </div>
 
     <div id="propertyList">
       <form
@@ -48,16 +74,32 @@
                   window.location.href = "/admin_messages/" + user.sender_id;
                 });
                 userList.prepend(listItem);
+  <script>
+    $(document).ready(function () {
+      function fetchUserList() {
+        $.ajax({
+          url: "{{ url_for('main.get_user_list') }}",
+          type: "GET",
+          success: function (response) {
+            var userList = $("#userList");
+            userList.empty(); // Clear existing list
+            response.user_list.forEach(function (user) {
+              var listItem = $("<li>").text(user.name);
+              listItem.on("click", function () {
+                // Redirects to user-specific conversation page
+                window.location.href = "/admin_messages/" + user.sender_id;
               });
-            },
-            error: function (error) {
-              console.log("Error fetching user list:", error);
-            },
-          });
-        }
+              userList.append(listItem);
+            });
+          },
+          error: function (error) {
+            console.log("Error fetching user list:", error);
+          },
+        });
+      }
 
-        fetchUserList();
-      });
-    </script>
-  </body>
+      fetchUserList();
+    });
+  </script>
+</body>
 </html>

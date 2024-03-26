@@ -11,7 +11,7 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     migrate = Migrate(app, db)
 
-    app.config['UPLOAD_FOLDER'] = 'C:\Users\dbopp\Documents\Clone\WebsiteImages'    
+    app.config['UPLOAD_FOLDER'] = 'C:\\Users\\dbopp\\Documents\\Clone\\WebsiteImages'  
 
     db.init_app(app)
     login_manager.init_app(app)
