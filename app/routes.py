@@ -134,14 +134,6 @@ def admin_messages(user_id):
 
     return render_template('admin_messages.html', user=user, messages=messages)
 
-################################################################## for deleting messages
-# @main_bp.route('/delete_message/<int:message_id>', methods=['POST'])
-# def delete_message(message_id):
-#     message = Message.query.get_or_404(message_id)
-#     db.session.delete(message)
-#     db.session.commit()
-#     return jsonify({"success": True})
-
 #################################################################### for sending client messages
 #owner messages client
 @main_bp.route('/send_message_to_user/<int:user_id>', methods=['POST'])
@@ -332,14 +324,14 @@ def user_dashboard():
     else:
         return redirect(url_for('main.login'))
 
-############################################################################### for viewing property details
+####################################################################################
+
 
 
 @main_bp.route('/property/<int:property_id>')
 def property_detail(property_id):
-    property_listing = PropertyListing.query.get_or_404(property_id)  # Correctly assign to property_listing
-    photo_urls = [url_for('static', filename=photo.photo) for photo in property_listing.photos]
-    return render_template('property.html', property=property_listing, photo_urls=photo_urls)
+    property = PropertyListing.query.get_or_404(property_id)
+    return render_template('property.html', property=property)
 
 
 
@@ -368,4 +360,35 @@ def admin_dashboard():
 @main_bp.route('/aboutus')
 def aboutus():
     return render_template('aboutus.html')
+
+############################################################## New route for deleting a reservation
+@main_bp.route('/delete_reservation/<int:reservation_id>', methods=['POST'])
+@login_required
+def delete_reservation(reservation_id):
+    reservation = Reservation.query.get_or_404(reservation_id)
+    if reservation.user_id != current_user.id:
+        flash('Unauthorized to delete this reservation.', 'error')
+        return redirect(url_for('main.user_dashboard'))
+
+    db.session.delete(reservation)
+    db.session.commit()
+
+    flash('Reservation deleted successfully.')
+    return redirect(url_for('main.user_dashboard'))
+
+################################################################### New route for deleting a user account
+@main_bp.route('/delete_account', methods=['POST'])
+@login_required
+def delete_account():
+    user_id = request.form.get('user_id')
+    if user_id != str(current_user.id):
+        flash('Unauthorized to delete this account.', 'error')
+        return redirect(url_for('main.user_dashboard'))
+
+    user = User.query.get_or_404(user_id)
+    db.session.delete(user)
+    db.session.commit()
+    logout_user()
+    flash('Your account has been deleted successfully.')
+    return redirect(url_for('main.index'))
 

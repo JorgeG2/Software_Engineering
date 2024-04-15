@@ -1,51 +1,49 @@
-
-
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 20px;
     background-color: #f4f4f4;
   }
-   h2 {
+  h2 {
     color: #333;
   }
- User css
-   p, a {
+User css
+  p, a {
     font-size: 16px;
     color: #666;
   }
-   a {
+  a {
     display: inline-block;
     margin-top: 10px;
     text-decoration: none;
     color: #007bff;
   }
-   a:hover {
+  a:hover {
     text-decoration: underline;
   }
-   .reservations {
+  .reservations {
     margin-top: 20px;
   }
-   table {
+  table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
   }
-   table, th, td {
+  table, th, td {
     border: 1px solid #ddd;
   }
-   th, td {
+  th, td {
     padding: 8px;
     text-align: left;
   }
-   th {
+  th {
     background-color: #007bff;
     color: white;
   }
-   tr:nth-child(even) {
+  tr:nth-child(even) {
     background-color: #f2f2f2;
   }
- 
+
   /* ************************************************* */
   .navbar {
     overflow: hidden;
@@ -54,7 +52,7 @@ body {
     margin-top: -20px;
     margin-left: -20px;
     margin-right: -20px;
-   
+  
   }
   
   .navbar a {
@@ -76,4 +74,16 @@ body {
     background-color: #466b93;
     color: white;
   }
-  
+  .delete-btn {
+    background-color: #ff4d4d; /* Red color for the delete button */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.delete-btn:hover {
+    background-color: #ff0000; /* Darker shade of red on hover */
+}

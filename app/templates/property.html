@@ -9,62 +9,71 @@
 </head>
 <body>
 
- 
-
   <!-- Slider main container -->
   <div class="swiper">
-
-    
     <div class="swiper-wrapper">
+      <!-- Static images -->
       <div class="swiper-slide"><img src="{{ url_for('static', filename='house1.jpg') }}" alt="House 1"></div>
       <div class="swiper-slide"><img src="{{ url_for('static', filename='house2.jpg') }}" alt="House 2"></div>
       <div class="swiper-slide"><img src="{{ url_for('static', filename='house3.jpg') }}" alt="House 3"></div>
-    </div>
-
-    <div class="swiper-wrapper">
+      <!-- Dynamic images from the server -->
       {% for photo_url in photo_urls %}
       <div class="swiper-slide"><img src="{{ photo_url }}" alt="Property Listing Photo"></div>
       {% endfor %}
     </div>
 
     <div class="swiper-pagination"></div>
-    <!-- navigation buttons -->
+    <!-- Navigation buttons -->
     <div class="swiper-button-prev"></div>
     <div class="swiper-button-next"></div>
-
-   
     <div class="swiper-scrollbar"></div>
   </div>
 
-
-  </div>
-  <div class="property-detail"> 
+  <div class="property-detail">
     <h1>{{ property.title }}</h1>
     <p>{{ property.description }}</p>
     <p>Bedrooms: {{ property.bedrooms }}</p>
     <p>Bathrooms: {{ property.bathrooms }}</p>
-    <p>Price: ${{ property.price }}</p>
+    <p>Price per night: ${{ property.price }}</p>
     <p>Location: {{ property.location }}</p>
-
-
 
     {% if current_user.is_authenticated %}
     <form action="{{ url_for('main.create_reservation', property_id=property.id) }}" method="post">
       <input type="hidden" name="property_id" value="{{ property.id }}">
       <label for="start_date">Start Date:</label>
-      <input type="date" id="start_date" name="start_date" required>
+      <input type="date" id="start_date" name="start_date" required onchange="calculateTotalCost()">
       <label for="end_date">End Date:</label>
-      <input type="date" id="end_date" name="end_date" required>
+      <input type="date" id="end_date" name="end_date" required onchange="calculateTotalCost()">
+      <p>Total cost: $<span id="totalCost">0</span></p>
       <button type="submit">Book Now</button>
     </form>
-  {% else %}
+    {% else %}
     <p>Please <a href="{{ url_for('main.login') }}">login</a> to make a reservation.</p>
-  {% endif %}
+    {% endif %}
   </div>
 
- 
-
   <script>
+    function calculateTotalCost() {
+      const pricePerNight = {{ property.price }};
+      const startDateInput = document.getElementById('start_date');
+      const endDateInput = document.getElementById('end_date');
+      const totalCostSpan = document.getElementById('totalCost');
+
+      if (startDateInput.value && endDateInput.value) {
+        const startDate = new Date(startDateInput.value);
+        const endDate = new Date(endDateInput.value);
+        const timeDiff = endDate - startDate;
+        const daysDiff = timeDiff / (1000 * 60 * 60 * 24);
+
+        if (daysDiff >= 0) {
+          const totalCost = (daysDiff + 1) * pricePerNight; // +1 to include both check-in and check-out days
+          totalCostSpan.textContent = totalCost.toFixed(2);
+        } else {
+          totalCostSpan.textContent = "0"; // Reset to 0 if end date is before start date
+        }
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
       const swiper = new Swiper('.swiper', {
         direction: 'horizontal',

@@ -1,52 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Your Title Here</title>
- <link
- rel="stylesheet"
- href="{{ url_for('static', filename='Udashboard.css') }}"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Title Here</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='Udashboard.css') }}"/>
 </head>
 
-<div class="navbar">
+<body>
+  <div class="navbar">
     <a href="{{ url_for('main.index') }}">Home</a>
     <a href="{{ url_for('main.aboutus') }}">About</a> 
     <a href="{{ url_for('main.user_dashboard') }}">my dash</a>
     <a href="{{ url_for('main.user_messages') }}">message us</a>
   </div>
 
-<body>
- <h2>Welcome, {{ user.name }}</h2>
- <p>Your email is: {{ user.email }}</p>
- <a href="{{ url_for('main.logout') }}">Logout</a>
+  <h2>Welcome, {{ user.name }}</h2>
+  <p>Your email is: {{ user.email }}</p>
+  <a href="{{ url_for('main.logout') }}">Logout</a>
 
+  <div class="reservations">
+    <h2>Reservations</h2>
+    <table>
+      <tr>
+        <th>Room</th>
+        <th>Check-in</th>
+        <th>Check-out</th>
+        <th>Total</th>
+        <th>Action</th> <!-- Added a column for the action buttons -->
+      </tr>
+      {% for reservation, property in user_reservations %}
+      <tr>
+        <td>{{ property.title }}</td>
+        <td>{{ reservation.start_date.strftime('%Y-%m-%d') }}</td>
+        <td>{{ reservation.end_date.strftime('%Y-%m-%d') }}</td>
+        <td>${{ reservation.total }}</td>
+        <td>
+          <!-- Form for deleting reservation -->
+          <form action="{{ url_for('main.delete_reservation', reservation_id=reservation.id) }}" method="post">
+            <button type="submit">Delete Reservation</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  <a href="{{ url_for('main.user_messages') }}">Have Questions about a reservation?</a>
 
- <div class="reservations">
-   <h2>Reservations</h2>
-   <table>
-     <tr>
-       <th>Room</th>
-       <th>Check-in</th>
-       <th>Check-out</th>
-       <th>Total</th>
-     </tr>
-     {% for reservation, property in user_reservations %}
-     <tr>
-       <td>{{ property.title }}</td>
-       <td>{{ reservation.start_date.strftime('%Y-%m-%d') }}</td>
-       <td>{{ reservation.end_date.strftime('%Y-%m-%d') }}</td>
-       <td>${{ reservation.total }}</td>
-     </tr>
-     {% endfor %}
-   </table>
-</div>
-<a href="{{ url_for('main.user_messages') }}">Have Questions about a reservation?</a>
-
+  <!-- Account Deletion Section -->
+  <div class="account-action">
+    <h3>Delete Your Account</h3>
+    <form action="{{ url_for('main.delete_account') }}" method="post">
+      <input type="hidden" name="user_id" value="{{ user.id }}">
+      <button type="submit" class="delete-btn">Delete My Account</button>
+    </form>
+  </div>
 
 </body>
-
 
 </html>
