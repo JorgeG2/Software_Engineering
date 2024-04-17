@@ -491,4 +491,19 @@ def admin_dashboard():
 @main_bp.route('/aboutus')
 def aboutus():
     return render_template('aboutus.html')
+###############################################################################
+@login_required
+def get_reservations():
+    if not current_user.is_admin:
+        return jsonify({'error': 'Unauthorized'}), 403
 
+    reservations = db.session.query(Reservation, PropertyListing).join(PropertyListing).all()
+    reservation_data = [{
+        'property_id': reservation.PropertyListing.id,
+        'start_date': reservation.Reservation.start_date.strftime('%Y-%m-%d'),
+        'end_date': reservation.Reservation.end_date.strftime('%Y-%m-%d'),
+        'status': reservation.Reservation.status,
+        'total': reservation.Reservation.total
+    } for reservation in reservations]
+
+    return jsonify(reservation_data)

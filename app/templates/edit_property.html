@@ -6,8 +6,8 @@
 <body>
     <h2>Edit Property</h2>
     <form action="{{ url_for('main.update_property', property_id=property.id) }}" method="post" enctype="multipart/form-data">
-         <input type="text" name="title" value="{{ property.title }}" required>
-         <button type="submit">Update Property</button> 
-     </form> 
+        <input type="text" name="title" value="{{ property.title }}" required>
+        <button type="submit">Update Property</button> 
+    </form> 
 </body>
 </html>

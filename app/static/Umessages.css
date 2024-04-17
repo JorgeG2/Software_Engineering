@@ -1,17 +1,38 @@
 /* General body styling */
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #f4f4f4; /* Light grey background */
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    background-color: #f4f7fa;
     color: #333;
 }
 
-/* Styling for the header */
-h2 {
-    color: hsl(0, 0%, 0%); 
-    text-shadow: 1px 1px 0px #fff; 
-    animation: pulse 2s infinite; /* Pulse animation for headers */
+/* Navbar styling */
+.navbar {
+    overflow: hidden;
+    background-color: #075fbd;
+    padding: 0 20px;
+}
+
+.navbar a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+    transition: 0.4s;
+}
+
+.navbar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.navbar a.active {
+    background-color: #466b93;
+    color: white;
 }
 
 /* Form and textarea styling */
@@ -19,7 +40,7 @@ h2 {
     background-color: #f2f2f2;
     padding: 20px;
     border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Increased shadow for depth */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     margin: 0 auto;
     width: 70%;
 }
@@ -28,54 +49,65 @@ textarea#messageContent {
     width: 100%;
     padding: 10px;
     margin-top: 10px;
-    border: 2px solid #007bff; /* More pronounced border */
+    border: 2px solid #007bff;
     border-radius: 4px;
     box-sizing: border-box;
-    height: 100px;
-    transition: border-color 0.3s ease; /* Smooth transition for border color */
+    height: 120px; /* Increased height */
+    transition: border-color 0.3s ease;
 }
 
 textarea#messageContent:focus {
-    border-color: #2980b9; /* Darker border on focus */
+    border-color: #2980b9;
 }
 
-/* Adjusted button styling */
+/* Button styling */
 button[type="submit"] {
-    background-color: #007bff; /* Updated button color */
+    background-color: #007bff;
     color: white;
-    padding: 10px 20px;
+    padding: 12px 24px; /* Larger button */
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s ease; /* Smooth color transition */
+    transition: background-color 0.3s ease;
 }
 
 button[type="submit"]:hover {
-    background-color: rgb(10, 78, 150); /* Darker shade on hover */
-    
+    background-color: rgb(10, 78, 150);
 }
 
-/* Styling for the message display area */
+/* Styling for the message display area with scroll */
 #messagesDisplay {
     margin-top: 20px;
     padding: 10px;
     background-color: #fff;
     border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhanced shadow for consistency */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 70%;
     margin: 20px auto;
+    height: 300px; /* Fixed height */
+    overflow-y: auto; /* Scrollbar as needed */
+    border: 1px solid #ccc; /* Added subtle border */
 }
 
-/* Differentiating owner and user messages */
+/* Message differentiation styling */
+.owner-message, .user-message {
+    padding: 15px 20px; /* Increased padding */
+    margin-bottom: 10px;
+    border-radius: 8px; /* Smoother edges */
+    font-size: 16px; /* Larger text */
+    animation: fadeIn 0.5s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
 .owner-message {
     text-align: center;
-    background-color: #007bff; /* Lighter blue for consistency */
-    border-left: 5px solid #0459b4; /* Darker accent border */
-    color: #fff; /* Ensuring text is white for readability */
-    position: relative; /* For pseudo-element positioning */
+    background: linear-gradient(to right, #007bff, #004c8c); /* Gradient background */
+    border-left: 6px solid #0459b4;
+    color: #fff;
+    position: relative;
 }
 
-.owner-message::after { /* Added a chat bubble effect */
+.owner-message::after {
     content: "";
     position: absolute;
     bottom: -10px;
@@ -83,16 +115,17 @@ button[type="submit"]:hover {
     border-width: 10px 10px 0;
     border-style: solid;
     border-color: #007bff transparent transparent transparent;
+    transform: translateX(-50%);
 }
 
 .user-message {
     text-align: right;
-    background-color: #d1e7dd;
-    border-right: 5px solid #0f5132;
+    background: linear-gradient(to right, #d1e7dd, #a4bfb6); /* Gradient background */
+    border-right: 6px solid #0f5132;
     position: relative;
 }
 
-.user-message::before { /* Adding a chat bubble effect */
+.user-message::before {
     content: "";
     position: absolute;
     bottom: -10px;
@@ -100,62 +133,16 @@ button[type="submit"]:hover {
     border-width: 10px 10px 0;
     border-style: solid;
     border-color: #d1e7dd transparent transparent transparent;
+    transform: translateX(50%);
 }
 
-#messagesDisplay div {
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-    animation: fadeIn 0.5s; /* Apply fade-in animation */
-}
-
-/* fade-in animation */
+/* Animation for fade-in effect */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
+/* Smooth scrolling */
 html {
     scroll-behavior: smooth;
 }
-
-/* ******************************************* */
-body {
-    font-family: 'Arial', sans-serif;
-    line-height: 1.6;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f7fa;
-    color: #333;
-  }
-  
-  .navbar {
-    overflow: hidden;
-    background-color: #075fbd;
-    padding: 0 20px;
-  }
-  
-  .navbar a {
-    float: left;
-    display: block;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 20px;
-    text-decoration: none;
-    transition: 0.4s;
-  }
-  
-  .navbar a:hover {
-    background-color: #ddd;
-    color: black;
-  }
-  
-  .navbar a.active {
-    background-color: #466b93;
-    color: white;
-  }
-  

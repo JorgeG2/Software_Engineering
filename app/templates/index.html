@@ -1,125 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
+<head>
+    <meta charset="UTF-8">
     <title>Property Listings</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='index.css') }}"
-    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-  </head>
-  <body>
-      <div class="navbar">
+</head>
+<body>
+    <!-- Navigation bar with links to various pages -->
+    <div class="navbar">
         <a href="{{ url_for('main.index') }}">Home</a>
         <a href="{{ url_for('main.aboutus') }}">About</a> 
-        <a href="{{ url_for('main.user_dashboard') }}">my dash</a>
-        <a href="{{ url_for('main.user_messages') }}">message us</a>
-        <a href="{{ url_for('main.login') }}">login </a>
-      </div>
-    
-  <div class = "big container">
-  <div class = "background-img">
-      <h1 class="name12">Property Listings</h1>
-        <!-- Search Bar Container -->
-        <div class="search-container">
-          <form id="search-form" class="search-box">
-            <input type="text" name="bedrooms" class="search-input" placeholder="Bedrooms">
-            <input type="text" name="bathrooms" class="search-input" placeholder="Bathrooms">
-            <input type="text" name="price" class="search-input" placeholder="Price">
-            <button type="submit" class="search-button">Search</button>
-        </form>
+        <a href="{{ url_for('main.user_dashboard') }}">My Dashboard</a>
+        <a href="{{ url_for('main.user_messages') }}">Message Us</a>
+        <a href="{{ url_for('main.login') }}">Login</a>
+    </div>
+
+    <!-- Main container for property listings and search bar -->
+    <div class="big container">
+        <div class="background-img">
+            <h1 class="name12">Property Listings</h1>
+            <!-- Search bar for filtering properties -->
+            <div class="search-container">
+                <form id="search-form" class="search-box">
+                    <input type="text" name="bedrooms" class="search-input" placeholder="Bedrooms">
+                    <input type="text" name="bathrooms" class="search-input" placeholder="Bathrooms">
+                    <input type="text" name="price" class="search-input" placeholder="Price">
+                    <button type="submit" class="search-button">Search</button>
+                </form>
+            </div>
         </div>
-      </div>
-  </div>
+    </div>
 
- </div>
-</div>    
-
+    <!-- Container to display property listings -->
     <div id="propertyList"></div>
 
     <script>
-      $(document).ready(function () {
+    $(document).ready(function () {
+        // Function to fetch initial property listings from the server
         function fetchPropertyListings() {
-          $.ajax({
-            url: "{{ url_for('main.get_property_listings') }}",
-            type: "GET",
-            success: function (properties) {
-              var propertyList = $("#propertyList");
-              propertyList.empty(); // Clear any existing content
+            $.ajax({
+                url: "{{ url_for('main.get_property_listings') }}",
+                type: "GET",
+                success: function (properties) {
+                    var propertyList = $("#propertyList");
+                    propertyList.empty(); // Clear any existing content
 
-              properties.forEach(function (property) {
-                var listing = $('<div class="property-item" style="cursor: pointer;">');
-
-                if (property.photo_url) {
-                  listing.append($('<img>').attr('src', property.photo_url).css({
-                    maxWidth: '100%',
-                    borderRadius: '5px',
-                    marginBottom: '10px'
-                  }));
-                }
-
-                listing.append($("<h2>").text(property.title));
-                listing.append($("<p>").text("Bedrooms: " + property.bedrooms));
-                listing.append($("<p>").text("Bathrooms: " + property.bathrooms));
-                listing.append($("<p>").text("$" + property.price + " per night"));
-
-                // Redirect to the property detail page on click
-                listing.on("click", function () {
-                  window.location.href = "/property/" + property.id;
-                });
-
-                propertyList.append(listing);
-              });
-            },
-            error: function (error) {
-              console.log("Error fetching property listings:", error);
-            },
-          });
+                    properties.forEach(function (property) {
+                        var listing = $('<div class="property-item" style="cursor: pointer;">');
+                        if (property.photo_url) {
+                            listing.append($('<img>').attr('src', property.photo_url).css({
+                                maxWidth: '100%',
+                                borderRadius: '5px',
+                                marginBottom: '10px'
+                            }));
+                        }
+                        listing.append($("<h2>").text(property.title));
+                        listing.append($("<p>").text("Bedrooms: " + property.bedrooms));
+                        listing.append($("<p>").text("Bathrooms: " + property.bathrooms));
+                        listing.append($("<p>").text("$" + property.price + " per night"));
+                        listing.data('id', property.id); // Store property ID for navigation
+                        propertyList.append(listing);
+                    });
+                },
+                error: function (error) {
+                    console.log("Error fetching property listings:", error);
+                },
+            });
         }
 
-        fetchPropertyListings();
-      });
+        // Event delegation to handle clicks on dynamically added property items
+        $('#propertyList').on('click', '.property-item', function () {
+            var propertyId = $(this).data('id'); // Retrieve stored property ID
+            window.location.href = "/property/" + propertyId; // Navigate to property detail page
+        });
+
+        // Form submission handling to search properties with specific attributes
+        $('#search-form').submit(function(event) {
+            event.preventDefault(); 
+            var searchUrl = "{{ url_for('main.search_property_listings') }}" 
+                          + "?bedrooms=" + $('input[name="bedrooms"]').val()
+                          + "&bathrooms=" + $('input[name="bathrooms"]').val()
+                          + "&price=" + $('input[name="price"]').val();
+            
+            $.ajax({
+                url: searchUrl,
+                type: 'GET',
+                success: function(data) {
+                    var propertyList = $("#propertyList");
+                    propertyList.empty(); // Clear existing listings before showing new results
+                    data.forEach(function(property) {
+                        var listing = $('<div class="property-item" style="cursor: pointer;">');
+                        if (property.photo_url) {
+                            listing.append($('<img>').attr('src', property.photo_url).css({
+                                maxWidth: '100%',
+                                borderRadius: '5px',
+                                marginBottom: '10px'
+                            }));
+                        }
+                        listing.append($("<h2>").text(property.title));
+                        listing.append($("<p>").text("Bedrooms: " + property.bedrooms));
+                        listing.append($("<p>").text("Bathrooms: " + property.bathrooms));
+                        listing.append($("<p>").text("$" + property.price + " per night"));
+                        listing.data('id', property.id); // Store property ID
+                        propertyList.append(listing);
+                    });
+                },
+                error: function(error) {
+                    console.error("Error fetching properties:", error);
+                }
+            });
+        });
+
+        fetchPropertyListings(); // Initial call to load property listings
+    });
     </script>
-
-
-<script>
-  $(document).ready(function() {
-      $('#search-form').submit(function(event) {
-          event.preventDefault(); 
-          var searchUrl = "{{ url_for('main.search_property_listings') }}" 
-                        + "?bedrooms=" + $('input[name="bedrooms"]').val()
-                        + "&bathrooms=" + $('input[name="bathrooms"]').val()
-                        + "&price=" + $('input[name="price"]').val();
-          
-          $.ajax({
-              url: searchUrl,
-              type: 'GET',
-              success: function(data) {
-                  var propertyList = $("#propertyList");
-                  propertyList.empty(); 
-  
-                  //  creates and append property listings to the DOM
-                  data.forEach(function(property) {
-                      var listing = $('<div class="property-item">')
-                          .append($('<h2>').text(property.title))
-                          .append($('<p>').text("Bedrooms: " + property.bedrooms))
-                          .append($('<p>').text("Bathrooms: " + property.bathrooms))
-                          .append($('<p>').text("Price: $" + property.price));
-
-                      // adds to the list div
-                      propertyList.append(listing);
-                  });
-              },
-              error: function(error) {
-                  console.error("Error fetching properties:", error);
-              }
-          });
-      });
-  });
-  </script>
-  
-    
-  </body>
+</body>
 </html>

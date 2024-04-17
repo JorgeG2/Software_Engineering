@@ -164,9 +164,9 @@ a[href*="login"]:hover {
     background-color: #075fbd;
     padding: 0 20px;
     margin-bottom: 60px;
-  }
-  
-  .navbar a {
+}
+
+.navbar a {
     float: left;
     display: block;
     color: #f2f2f2;
@@ -174,15 +174,14 @@ a[href*="login"]:hover {
     padding: 14px 20px;
     text-decoration: none;
     transition: 0.4s;
-  }
-  
-  .navbar a:hover {
+}
+
+.navbar a:hover {
     background-color: #ddd;
     color: black;
-  }
-  
-  .navbar a.active {
+}
+
+.navbar a.active {
     background-color: #466b93;
     color: white;
-  }
-  
+}
