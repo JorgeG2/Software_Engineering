@@ -1,30 +1,115 @@
+/* Reset and box sizing */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-.name12 {
+/* Base styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+}
+
+/* Navbar styles */
+.navbar {
+    overflow: hidden;
+    background-color: #075fbd;
+    padding: 0 20px;
+    margin-bottom: 60px;
+}
+
+.navbar a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+    transition: 0.4s;
+}
+
+.navbar a:hover,
+.navbar a.active {
+    background-color: #466b93;
     color: white;
 }
 
-.big-container {
+/* Header and Footer matching colors */
+.header, .footer {
+    background-color: #075fbd; /* Consistent color */
+    color: #fff;
+}
+
+/* Header specific styles */
+.header {
     display: flex;
-    justify-content: center; 
-    align-items: center; 
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer specific styles */
+.footer {
+    padding: 40px 0;
+}
+
+.footer .container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer .footer-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.footer-section {
+    flex: 1;
+    margin-right: 30px;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section h3 {
+    border-bottom: 2px solid #fff;
+    padding-bottom: 10px;
+}
+
+/* Main content styles */
+.big-container, .background-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.big-container {
     height: 100vh;
     margin-top: 60px;
 }
 
 .background-img {
-    margin-top: 60; 
+    margin-top: 60px; 
     position: relative;
     height: 60vh; 
     width: 100%; 
-    border-radius: 20px; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    border-radius: 20px;
     overflow: hidden;
 }
 
@@ -53,39 +138,17 @@
     z-index: -1;
 }
 
-/* *************************** */
-/* Font */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
-    line-height: 1.6;
-}
-
-.container {
-    width: 80%;
-    margin: auto;
-}
-
-h1 {
-    text-align: center;
-    color: #222;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    font-size: 2rem;
-}
-
+/* Search and property listing styles */
 .search-container {
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
     padding: 20px;
-    
 }
 
 .search-box {
     display: flex;
-    align-items: center;
+    align-items:center;
     background-color: #fff;
     border: 2px solid #007bff;
     border-radius: 20px;
@@ -118,12 +181,7 @@ h1 {
     background-color: #0056b3;
 }
 
-
-a[href*="login"]:hover {
-    background-color: #218838;
-}
-
-/* Property List */
+/* Property list styles */
 #propertyList {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
@@ -131,7 +189,6 @@ a[href*="login"]:hover {
     padding: 20px;
 }
 
-/* Property Item Cards */
 .property-item {
     background: #fff;
     border-radius: 10px;
@@ -157,67 +214,4 @@ a[href*="login"]:hover {
     font-size: 1rem; /* Larger paragraph text */
     color: #666;
     margin-bottom: 0.5rem;
-}
-/* *********************************************************************************** */
-.navbar {
-    overflow: hidden;
-    background-color: #075fbd;
-    padding: 0 20px;
-    margin-bottom: 60px;
-}
-
-.navbar a {
-    float: left;
-    display: block;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 20px;
-    text-decoration: none;
-    transition: 0.4s;
-}
-
-.navbar a:hover {
-    background-color: #ddd;
-    color: black;
-}
-
-.navbar a.active {
-    background-color: #466b93;
-    color: white;
-}
-/* Footer */
-.footer {
-    background-color: #1855e2;
-    color: #fff;
-    padding: 40px 0;
-}
-
-.footer .container {
-    display: flex;
-    justify-content: space-between;
-}
-
-.footer .footer-content {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-}
-
-.footer-section {
-    flex: 1;
-    margin-right: 30px;
-}
-
-.footer-section ul {
-    list-style: none;
-    padding: 0;
-}
-
-.footer-section ul li {
-    margin-bottom: 10px;
-}
-
-.footer-section h3 {
-    border-bottom: 2px solid #fff;
-    padding-bottom: 10px;
 }
