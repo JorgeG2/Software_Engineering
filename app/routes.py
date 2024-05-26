@@ -412,6 +412,7 @@ def user_dashboard():
             
             return render_template('User_dashboard.html', user=current_user, user_reservations=user_reservations)
     else:
+        flash('Unauthorized access. Please log in to access this page.', 'error')
         return redirect(url_for('main.login'))
     
 ############################################################## New route for deleting a reservation
