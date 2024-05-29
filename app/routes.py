@@ -605,4 +605,6 @@ def get_reservations():
         }
         reservation_data.append(reservation_info)
 
+
     return jsonify(reservation_data)
+
