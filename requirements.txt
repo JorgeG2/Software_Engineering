@@ -14,7 +14,7 @@ SQLAlchemy==2.0.27
 typing_extensions==4.10.0
 Werkzeug==3.0.1
 alembic==1.13.1
-anyio==4.3.0
+anyio==4.4.0
 appnope==0.1.4
 argon2-cffi==23.1.0
 argon2-cffi-bindings==21.2.0
