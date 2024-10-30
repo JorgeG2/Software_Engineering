@@ -12,7 +12,7 @@ MarkupSafe==2.1.5
 PyMySQL==1.1.0
 SQLAlchemy==2.0.27
 typing_extensions==4.10.0
-Werkzeug==3.0.1
+Werkzeug==3.0.6
 alembic==1.13.1
 anyio==4.3.0
 appnope==0.1.4
@@ -147,7 +147,7 @@ wcwidth==0.2.13
 webcolors==1.13
 webencodings==0.5.1
 websocket-client==1.7.0
-Werkzeug==3.0.1
+Werkzeug==3.0.6
 widgetsnbextension==4.0.10
 wtf==0.1
 WTForms==3.1.2
